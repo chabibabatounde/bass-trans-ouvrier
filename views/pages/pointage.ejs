@@ -1,0 +1,195 @@
+<%- partial('../includes/header') %>
+
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+            </div>
+        </div>
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-md-12">
+                <div class="app-card app-card-settings shadowd-sm p-4">
+                    <div class="app-card-body">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="setting-input-1" class="form-label">Choisir l'équipe</label>
+                                <select onchange="loadouvrier(this)" class="form-control" id="equipe" required>
+                                <option value="O"> -- Equipe -- </option>
+                                    <% 
+                                        for(var i=0; i< equipes.length; i++) {
+                                            let equipe = equipes[i];
+                                        %>
+                                            <option value="<%= equipe.id %>"> <%= equipe.intitule %> </option>
+                                        <%
+                                        }
+                                        %>
+                            </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="setting-input-1" class="form-label">Choisir l'ouvrier</label>
+                                <select id="ouvrierForm" class="form-control" id="ouvrier" required>
+                            <option value=""> -- Choisir -- </option>
+                        </select>
+                            </div>
+                            <div class="col-6 col-lg-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Date de début</label>
+                                <input class="form-control" id="dateDebut" required type="date">
+                            </div>
+                            <div class="col-6 col-lg-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Heure de début</label>
+                                <input class="form-control" id="heureDebut" required type="time">
+                            </div>
+                            <div class="col-6 col-lg-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Date de fin</label>
+                                <input class="form-control" id="dateFin" required type="date">
+                            </div>
+                            <div class="col-6 col-lg-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Heure de fin</label>
+                                <input class="form-control" id="heureFin" required type="time">
+                            </div>
+
+                            <div class="col-6 col-lg-3 mb-3">
+                                <button type="submit" class="btn app-btn-primary" onclick="submitMyForm()">Enregistrer </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-lg-12">
+                <div class="app-card app-card-stat shadow-sm h-100">
+                    <div class="app-card app-card-orders-table mb-5">
+                        <div class="app-card-body p-3 p-lg-4">
+                            <div class="table-responsive">
+                                <table class="table mb-0 text-left">
+                                    <thead>
+                                        <tr>
+                                            <th class="cell">Nom et prénom</th>
+                                            <th class="cell">Début</th>
+                                            <th class="cell">Fin</th>
+                                            <th class="cell">Durée</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pointageTable">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <%- partial('../includes/footer') %>
+
+        <script>
+            function loadouvrier(select) {
+                $.get("/apipointage/" + select.value, function(data) {
+                    let content = "<option value=''> -- Choisir l'ouvrier -- </option>";
+                    for (var i = 0; i < data.length; i++) {
+                        content += "<option value='" + data[i].ouvrier.id + "'>" + data[i].ouvrier.nom + " " + data[i].ouvrier.prenom + " (" + data[i].categorie.intitule + ")</option>";
+                    }
+                    $('#ouvrierForm').html(content);
+
+                    let tab_content = "";
+                    $.get("/apilastpointage/" + select.value, function(datas) {
+                        for (var i = 0; i < datas.length; i++) {
+                            let ligne = datas[i];
+                            tab_content += "<tr><td class='cell'>" + ligne.ouvrier.nom
+                            tab_content += " " + ligne.ouvrier.prenom + "</td>"
+                            tab_content += "<td>" + ligne.dateDebut + " à " + ligne.heureDebut + "</td>"
+                            tab_content += "<td>" + ligne.dateFin + " à " + ligne.heureFin + "</td>"
+                            let resultdif = new Date(ligne.dateFin + " " + ligne.heureFin).getTime() - new Date(ligne.dateDebut + " " + ligne.heureDebut).getTime()
+                            tab_content += "<td>" + Math.round(resultdif / (1000 * 3600)) + "h</td>"
+                            tab_content += "</tr>"
+                                // content += "<option value='" + data[i].ouvrier.id + "'>" + data[i].ouvrier.nom + " " + data[i].ouvrier.prenom + " (" + data[i].categorie.intitule + ")</option>";
+                        }
+                        $('#pointageTable').html(tab_content);
+                    });
+                });
+            }
+
+            function submitMyForm() {
+                let postData = {
+                    equipe: $("#equipe").val(),
+                    ouvrier: $("#ouvrierForm").val(),
+                    dateDebut: $("#dateDebut").val(),
+                    heureDebut: $("#heureDebut").val(),
+                    heureFin: $("#heureFin").val(),
+                    dateFin: $("#dateFin").val()
+                }
+                if (postData.dateDebut && postData.dateDebut != "") {
+                    if (postData.heureDebut && postData.heureDebut != "") {
+                        if (postData.dateFin && postData.dateFin != "") {
+                            if (postData.heureFin && postData.heureFin != "") {
+                                if (postData.equipe && postData.equipe != "") {
+                                    if (postData.ouvrier && postData.ouvrier != "") {
+                                        var debut = new Date(postData.dateDebut + " " + postData.heureDebut + ":00");
+                                        var fin = new Date(postData.dateFin + " " + postData.heureFin + ":00");
+                                        if (debut.getTime() < fin.getTime()) {
+                                            swal({
+                                                    title: "Enregistrer les heures pour " + $("#ouvrierForm option:selected").text() + " ?",
+                                                    text: postData.dateDebut + " à " + postData.heureDebut + " ---> " + postData.dateFin + " à " + postData.heureFin,
+                                                    icon: "warning",
+                                                    buttons: true,
+                                                    dangerMode: true,
+                                                })
+                                                .then((willDelete) => {
+                                                    if (willDelete) {
+                                                        $.post("/apipointagemark", postData, function(data) {
+                                                            if (data.code == 200) {
+                                                                swal(data.message, "", "success");
+                                                                $("#equipe").val("")
+                                                                $("#dateDebut").val("")
+                                                                $("#heureDebut").val("")
+                                                                $("#heureFin").val("")
+                                                                $("#dateFin").val("")
+                                                                $("#ouvrierForm").html("<option value=''> -- Choisir l'ouvrier -- </option>")
+                                                                let tab_content = "";
+                                                                for (var i = 0; i < data.data.length; i++) {
+                                                                    let ligne = data.data[i];
+                                                                    tab_content += "<tr><td class='cell'>" + ligne.ouvrier.nom
+                                                                    tab_content += " " + ligne.ouvrier.prenom + "</td>"
+                                                                    tab_content += "<td>" + ligne.dateDebut + " à " + ligne.heureDebut + "</td>"
+                                                                    tab_content += "<td>" + ligne.dateFin + " à " + ligne.heureFin + "</td>"
+                                                                    let resultdif = new Date(ligne.dateFin + " " + ligne.heureFin).getTime() - new Date(ligne.dateDebut + " " + ligne.heureDebut).getTime()
+                                                                    tab_content += "<td>" + Math.round(resultdif / (1000 * 3600)) + "h</td>"
+                                                                    tab_content += "</tr>"
+                                                                        // content += "<option value='" + data[i].ouvrier.id + "'>" + data[i].ouvrier.nom + " " + data[i].ouvrier.prenom + " (" + data[i].categorie.intitule + ")</option>";
+                                                                }
+                                                                $('#pointageTable').html(tab_content);
+                                                            } else {
+                                                                swal(data.message, "", "error");
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                        } else {
+                                            swal("La date et l'heure du début est ultérieure à la date de fin", "", "error");
+                                        }
+                                    } else {
+                                        swal("Veuillez choisir un ouvrier", "", "error");
+                                    }
+                                } else {
+                                    swal("Veuillez choisir une équipe correcte", "", "error");
+                                }
+                            } else {
+                                swal("Veuillez définir une heure de fin correcte", "", "error");
+                            }
+                        } else {
+                            swal("Veuillez définir une date de fin correcte", "", "error");
+                        }
+                    } else {
+                        swal("Veuillez définir une heure de début correcte", "", "error");
+                    }
+                } else {
+                    swal("Veuillez définir une date de début correcte", "", "error");
+                }
+            }
+        </script>

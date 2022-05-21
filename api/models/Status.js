@@ -1,5 +1,5 @@
 /**
- * Ouvrier.js
+ * Status.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -12,31 +12,14 @@ module.exports = {
         //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
         //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
         //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-        nom: {
-            type: "String"
-        },
-        prenom: {
-            type: "String"
-        },
-        adresse: {
-            type: "String"
-        },
-        telephone: {
-            type: "String"
-        },
-        urgence: {
+        intitule: {
             type: "String"
         },
 
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
         //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
-        categorie: {
-            model: "Categorie"
-        },
-        status: {
-            model: "Status"
-        },
+
 
         //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
         //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗

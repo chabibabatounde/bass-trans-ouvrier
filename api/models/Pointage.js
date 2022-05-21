@@ -12,28 +12,24 @@ module.exports = {
         //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
         //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
         //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-        debut: {
+        dateDebut: {
             type: "String"
         },
-        fin: {
+        heureDebut: {
+            type: "String"
+        },
+        dateFin: {
+            type: "String"
+        },
+        heureFin: {
             type: "String"
         },
         ouvrier: {
             model: "Ouvrier"
         },
-        heureSup: {
-            type: "Number"
+        equipe: {
+            model: "Equipe"
         },
-        montantHorraire: {
-            type: "Number"
-        },
-        cotistion: {
-            type: "Number"
-        },
-        tva: {
-            type: "Number"
-        },
-
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
         //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

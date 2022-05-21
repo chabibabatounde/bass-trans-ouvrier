@@ -21,8 +21,22 @@ module.exports.routes = {
 
     '/login': { action: 'login' },
     'GET /': { action: 'accueil' },
+    'GET /ouvrier': { action: 'ouvrier/main' },
+
+
+
+
+
+
+
+    'GET /apilastpointage/:idequipe': { action: 'apilastpointage' },
     '/equipes': { action: 'equipes' },
     '/equipe/details/:idequipe': { action: 'managequipe' },
+    '/pointage': { action: 'pointage' },
+    'GET /apipointage/:idequipe': { action: 'apipointage' },
+    'POST /apipointagemark': { action: 'apipointagemark' },
+
+
 
 
 

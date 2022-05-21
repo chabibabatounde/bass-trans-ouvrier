@@ -12,8 +12,7 @@
  */
 module.exports = async function managequipe(req, res) {
 
-    //let variables = await sails.helpers.init(req, res);
-    let variables = { page: { title: "", name: "" } }
+    let variables = await sails.helpers.init(req, res);
     let idequipe = req.param("idequipe");
     let post = req.body;
     if (post) {
