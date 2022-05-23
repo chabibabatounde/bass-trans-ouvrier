@@ -15,20 +15,20 @@ module.exports = {
         dateDebut: {
             type: "String"
         },
-        heureDebut: {
-            type: "String"
-        },
         dateFin: {
             type: "String"
         },
-        heureFin: {
+        heures: {
             type: "String"
+        },
+        montantHorraire: {
+            type: "Number"
         },
         ouvrier: {
             model: "Ouvrier"
         },
-        equipe: {
-            model: "Equipe"
+        chantier: {
+            model: "Chantier"
         },
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

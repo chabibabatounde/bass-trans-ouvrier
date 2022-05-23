@@ -35,6 +35,7 @@ module.exports = {
             variables.user = inputs.req.session.bassTransOuvrier;
             variables.page = {
                 title: "",
+                message: "",
                 name: "Accueil"
             }
             return variables;

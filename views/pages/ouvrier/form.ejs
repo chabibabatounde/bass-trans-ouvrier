@@ -1,0 +1,77 @@
+<div class="row g-4 mb-4" id="formulaireOuvrier" style="display: none">
+    <div class="col-12 col-md-12">
+        <div class="app-card app-card-settings shadow-sm p-4">
+            <div class="app-card-body">
+                <form class="settings-form" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Nom</label>
+                            <input class="form-control" name="nom" placeholder="Nom de l'ouvrier" required>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Prénom</label>
+                            <input class="form-control" name="prenom" placeholder="Prénom de l'ouvrier" required>
+                        </div>
+
+                        <div class="col-3 mb-3">
+                            <label for="setting-input-1" class="form-label">Date de Naissance</label>
+                            <input class="form-control" name="dateNaissance" placeholder="Date de Naissance" type="date">
+                        </div>
+
+                        <div class="col-3 mb-3">
+                            <label for="setting-input-1" class="form-label">Lieu de Naissance</label>
+                            <input class="form-control" name="lieuNassance" placeholder="Date de Naissance" type="text">
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Categorie</label>
+                            <select class="form-control" name="categorie" required>
+                                <option value=""> --- Choisir la categorie --- </option>
+
+                            <% 
+                            for(var i=0; i< categories.length; i++) {
+                                let categorie = categories[i];
+                            %>
+                                <option value="<%= categorie.id %>"><%= categorie.intitule %></option>
+                            <% 
+                            }
+                            %>
+                            </select>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Contact</label>
+                            <input class="form-control" name="contact" placeholder="Numéro de téléphone" type="text" required>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Email</label>
+                            <input class="form-control" name="email" placeholder="Date de Naissance" type="text">
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Adresse</label>
+                            <input class="form-control" name="adresse" placeholder="Carré/Maison, Quartier, Ville, Pays" type="text" required>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="setting-input-1" class="form-label">Piece d'identité</label>
+                            <input class="form-control" name="pieceIdentite" placeholder="Nom, prénom et téléphone" type="file" required>
+                        </div>
+
+
+
+                        <div class="col-12 mb-3">
+                            <label for="setting-input-1" class="form-label">Contact d'urgence</label>
+                            <input class="form-control" name="urgence" placeholder="Nom, prénom et téléphone" type="text" required>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn app-btn-primary">Enregistrer l'ouvrier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

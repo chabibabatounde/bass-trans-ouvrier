@@ -1,0 +1,139 @@
+<%- partial('../../includes/header') %>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+            </div>
+        </div>
+
+
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-md-12">
+                <div class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+                    <div class="app-card-header p-3 border-bottom-0">
+                        <div class="row align-items-center gx-3">
+                            <div class="col-auto">
+                                <div class="app-icon-holder">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                        </svg>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <h4 class="app-card-title">Profile ouvrier</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//app-card-header-->
+                    <div class="app-card-body px-4 w-100">
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col text-end">
+                                    <a class="btn-sm app-btn-secondary" href="#">Modifier ouvrier</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Nom et prénoms</strong></div>
+                                    <div class="item-data">
+                                        <%= ouvrier.nom %>
+                                            <%= ouvrier.prenom %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Date et lieu de naissance</strong></div>
+                                    <div class="item-data">
+                                        <%= ouvrier.dateNaissance %> à
+                                            <%= ouvrier.lieuNaissance %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Contacts et email</strong></div>
+                                    <div class="item-data">
+                                        <%= ouvrier.telephone %> <br>
+                                            <%= ouvrier.email %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Adresse</strong></div>
+                                    <div class="item-data">
+                                        <%= ouvrier.adresse %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Chantier actuel</strong></div>
+                                    <div class="item-data">
+                                        <% if (ouvrier.chantier){ %>
+                                            <%= ouvrier.chantier.intitule  %>
+                                                <% }else{ %>
+                                                    Aucun
+                                                    <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Personne à contacter en cas d'urgence</strong></div>
+                                    <div class="item-data">
+                                        <%= ouvrier.urgence %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Changer le status</strong></div>
+                                    <div class="item-data">
+                                        <select class="form-control" name="status" required>
+                                                <option value="<%= ouvrier.status.id %>"><%= ouvrier.status.intitule %></option>
+                                            <% 
+                                            for(var i=0; i< status.length; i++) {
+                                                let stat = status[i];
+                                            %>
+                                                <option value="<%= stat.id %>"><%= stat.intitule %></option>
+                                            <% 
+                                            }
+                                            %>
+                                            </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="app-card-footer p-4 mt-auto">
+                        <a class="btn app-btn-secondary" download="<%= ouvrier.pieceIdentite %>" href="/fileStorage/ouvrier/identity/<%= ouvrier.pieceIdentite %>">Télecharger la pièce d'identité</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- partial('../../includes/footer') %>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#ouvrierListTab').DataTable();
+            });
+        </script>

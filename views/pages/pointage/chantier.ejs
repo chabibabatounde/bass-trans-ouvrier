@@ -1,0 +1,188 @@
+<%- partial('../../includes/header') %>
+
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4" id="formulaireOuvrier">
+            <div class="col-12 col-md-12">
+                <div class="app-card app-card-settings shadow-sm p-4">
+                    <div class="app-card-body">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                Veuillez définir la période pour laquelle vous désirez enregistrer des heures
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Date de début</label>
+                                <input class="form-control" id="dateDebut" type="date" required>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Date de fin</label>
+                                <input class="form-control" id="dateFin" type="date" required>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="setting-input-1" class="form-label">Veuillez saisir les heures pour les ouvriers correspondants</label>
+                            </div>
+
+
+                            <div class="col-12 col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table mb-0 text-left" id="ouvrierListTab">
+                                        <thead>
+                                            <tr>
+                                                <th class="h-cell">Ouvrier</th>
+                                                <th class="h-cell">Fonction</th>
+                                                <th class="h-cell">Nbre Heure</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% 
+                            for(var i=0; i< chantier.membres.length; i++) {
+                                let ouvrier = chantier.membres[i];
+                            %>
+                                                <tr>
+                                                    <td class="cell">
+                                                        <%= ouvrier.nom %>
+                                                            <%= ouvrier.prenom %>
+                                                    </td>
+                                                    <td class="cell">
+                                                        <%= ouvrier.categorie.intitule %>
+                                                    </td>
+                                                    <td class="cell">
+                                                        <input class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Saisir heure">
+                                                    </td>
+                                                </tr>
+                                                <%
+                            }
+                            %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="col-12 mb-3">
+                                <br>
+                                <button onclick="submitHeure()" class="btn app-btn-primary">Enregistrer les heures</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-12 col-md-12">
+            <div class="app-card app-card-settings shadow-sm p-4">
+                <div class="app-card-body">
+                    <div class="table-responsive">
+                        <table class="table mb-0 text-left" id="ouvrierAffectedListTab">
+                            <thead>
+                                <tr>
+                                    <th class="h-cell">Ouvier</th>
+                                    <th class="h-cell">Date Debut</th>
+                                    <th class="h-cell">Date Fin</th>
+                                    <th class="h-cell">Heures</th>
+                                    <th class="h-cell"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% 
+                                for(var i=0; i< pointages.length; i++) {
+                                    let pointage = pointages[i];
+                                %>
+                                    <tr>
+                                        <td class="cell">
+                                            <a href="/ouvrier/details/<%= pointage.ouvrier.id %>" style='color: black; text-decoration: underline;'>
+                                                <%= pointage.ouvrier.nom %>
+                                                    <%= pointage.ouvrier.prenom %>
+                                            </a>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.dateDebut %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.dateFin %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.heures %>
+                                        </td>
+                                        <td class="cell">
+                                            <a class="btn-sm app-btn-secondary" style="cursor: pointer;" onclick="deleteLine(<%= pointage.id %>)">X</a>
+                                        </td>
+                                    </tr>
+                                    <%
+                                }
+                                %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- partial('../../includes/footer') %>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#ouvrierListTab').DataTable();
+            });
+
+            function deleteLine(idPointage) {
+                swal({
+                        title: "Souhitez-vous souhaiter ce pointage?",
+                        text: "",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("Veuillez patienter...");
+                            $.post("/api/deletepointage", {
+                                idPointage: idPointage
+                            }, function(data) {
+                                location.reload();
+                            });
+                        }
+                    });
+
+            }
+
+            function submitHeure() {
+                let postData = {
+                    dateDebut: $("#dateDebut").val(),
+                    dateFin: $("#dateFin").val(),
+                    chantier: <%= chantier.id %>,
+                    pointages: []
+                }
+                let elements = $(".inputHeure")
+                for (let i = 0; i < elements.length; i++) {
+                    let element = elements[i];
+                    if (element.value != "" && element.value != "0") {
+                        postData.pointages.push({
+                            ouvrier: element.getAttribute("idOuvrier"),
+                            heure: element.value
+                        })
+                    }
+                }
+                if (postData.dateDebut != "" && postData.dateFin != "") {
+                    swal("Bass Trans", "Veuillez patienter pendant que nous enregistrons les données...");
+                    $.post("/api/pointage", postData, function(data) {
+                        setTimeout(function() {
+                            location.reload()
+                        }, 3000)
+                    })
+                } else {
+                    swal("Veuillez définir correctememnt la date de début et la date de fin", "", "error")
+                }
+            }
+        </script>

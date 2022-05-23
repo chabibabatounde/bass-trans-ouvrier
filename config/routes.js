@@ -21,10 +21,16 @@ module.exports.routes = {
 
     '/login': { action: 'login' },
     'GET /': { action: 'accueil' },
-    'GET /ouvrier': { action: 'ouvrier/main' },
-
-
-
+    '/ouvrier': { action: 'ouvrier/main' },
+    '/ouvrier/details/:idouvrier': { action: 'ouvrier/details' },
+    '/chantier': { action: 'chantier/main' },
+    '/api/changestatus': { action: 'api/changestatus' },
+    'POST /api/pointage': { action: 'api/pointage' },
+    'POST /api/affectation': { action: 'api/affectation' },
+    'POST /api/deletepointage': { action: 'api/deletepointage' },
+    '/chantier/details/:idchantier': { action: 'chantier/details' },
+    '/pointage': { action: 'pointage/pointage' },
+    '/pointage/chantier/:idchantier': { action: 'pointage/chantier' },
 
 
 
@@ -32,7 +38,6 @@ module.exports.routes = {
     'GET /apilastpointage/:idequipe': { action: 'apilastpointage' },
     '/equipes': { action: 'equipes' },
     '/equipe/details/:idequipe': { action: 'managequipe' },
-    '/pointage': { action: 'pointage' },
     'GET /apipointage/:idequipe': { action: 'apipointage' },
     'POST /apipointagemark': { action: 'apipointagemark' },
 

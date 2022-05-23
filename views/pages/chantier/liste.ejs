@@ -1,0 +1,52 @@
+<div class="row g-4 mb-4" id="listeOuvrier">
+    <div class="col-12 col-md-12">
+        <div class="app-card app-card-settings shadow-sm p-4">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table mb-0 text-left" id="ouvrierListTab">
+                        <thead>
+                            <tr>
+                                <th class="h-cell">Chantier</th>
+                                <th class="h-cell">Adresse</th>
+                                <th class="h-cell">Statut</th>
+                                <th class="h-cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% 
+                            for(var i=0; i< chantiers.length; i++) {
+                                let chantier = chantiers[i];
+                            %>
+                                <tr>
+                                    <td class="cell">
+                                        <%= chantier.intitule %>
+                                    </td>
+                                    <td class="cell">
+                                        <%= chantier.pays %>
+                                            <%= chantier.ville %>
+                                                <%= chantier.quartier %>
+                                    </td>
+                                    <td class="cell">
+                                        <div class="form-check form-switch mb-3">
+                                            <input onclick="changeStatus(this)" idchantier="<%= chantier.id %>" value="<%= chantier.status %>" class="form-check-input" type="checkbox" id="settings-switch-1" <% if (chantier.status==1 ){ %> checked
+                                            <%
+                                                }
+                                            %>
+                                                >
+                                        </div>
+                                    </td>
+                                    <td class="cell">
+                                        <a class="btn-sm app-btn-secondary" href="/chantier/details/<%= chantier.id %>">Ouvrir</a>
+                                    </td>
+                                </tr>
+                                <%
+                            }
+                            %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="row g-4 mb-4" id="formulaireAffectation" style="display: none">
+    <div class="col-12 col-md-12">
+        <div class="app-card app-card-settings shadow-sm p-4">
+            <div class="app-card-body">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label for="setting-input-1" class="form-label">Cocher les ouvriers à affecter au chantier et définissez le montant horraire correspondant.</label>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <div class="table-responsive">
+                            <table class="table mb-0 text-left" id="ouvrierListTab">
+                                <thead>
+                                    <tr>
+                                        <th class="h-cell"></th>
+                                        <th class="h-cell">Nom et Prénom</th>
+                                        <th class="h-cell">Fonction</th>
+                                        <th class="h-cell">Montant Horraire</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% 
+                                        for(var i=0; i< ouvriers.length; i++) {
+                                            let ouvrier = ouvriers[i];
+                                        %>
+                                        <tr>
+                                            <td class="cell">
+                                                <input class="form-check-input check-box" status="0" onclick="selectUser(this)" inputid="<%= ouvrier.id %>" type="checkbox" id="settings-switch-1">
+                                            </td>
+                                            <td class="cell">
+                                                <%= ouvrier.nom+" "+ouvrier.prenom %>
+                                            </td>
+                                            <td class="cell">
+                                                <%= ouvrier.categorie.intitule %>
+                                            </td>
+                                            <td class="cell">
+                                                <input type="" value="<%= ouvrier.categorie.montantHorraire %>" class="tab_input" id="tabinput<%= ouvrier.id %>" disabled>
+                                            </td>
+                                        </tr>
+                                        <% 
+                                            }
+                                        %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="submitAffectation()" class="btn app-btn-primary">Affecter les ouvriers </button>
+            </div>
+        </div>
+    </div>
+</div>

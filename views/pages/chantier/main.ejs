@@ -1,0 +1,48 @@
+<%- partial('../../includes/header') %>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+            </div>
+        </div>
+
+
+        <%- partial('form') %>
+            <%- partial('liste') %>
+                <%- partial('../../includes/footer') %>
+
+
+                    <script type="text/javascript">
+                        function changeStatus(element) {
+                            swal({
+                                    title: "Etes-vous sur?",
+                                    text: "Vous êtes sur le point de changer le statut d'un chantier. La désactivation d'un chantier rend automatiquement disponibles les ouvriers affactés. Continuer?",
+                                    icon: "warning",
+                                    buttons: true,
+                                    dangerMode: true,
+                                })
+                                .then((willDelete) => {
+                                    let status = element.value;
+                                    if (willDelete) {
+                                        if (status == 0) {
+                                            status = 1;
+                                        } else {
+                                            status = 0;
+                                        }
+                                        let idchantier = element.getAttribute('idchantier');
+                                        $.post("/api/changestatus", {
+                                            id: idchantier,
+                                            status: status
+                                        }, function(data) {
+                                            element.value = status;
+                                        });
+                                    } else {
+                                        if (status == 0) {
+                                            element.checked = false;
+                                        } else {
+                                            element.checked = true;
+                                        }
+                                    }
+                                });
+
+                        }
+                    </script>

@@ -1,5 +1,5 @@
 /**
- * Equipe.js
+ * Affectation.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -12,9 +12,15 @@ module.exports = {
         //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
         //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
         //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
-        intitule: {
-            type: "String"
-        }
+        ouvrier: {
+            model: "Ouvrier"
+        },
+        chantier: {
+            model: "Chantier"
+        },
+        montantHoraire: {
+            type: "Number"
+        },
 
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

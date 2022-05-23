@@ -18,16 +18,27 @@ module.exports = {
         prenom: {
             type: "String"
         },
-        adresse: {
+        dateNaissance: {
             type: "String"
         },
-        telephone: {
+        lieuNaissance: {
+            type: "String"
+        },
+        contact: {
+            type: "String"
+        },
+        email: {
+            type: "String"
+        },
+        adresse: {
             type: "String"
         },
         urgence: {
             type: "String"
         },
-
+        pieceIdentite: {
+            type: "String"
+        },
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
         //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
@@ -36,6 +47,9 @@ module.exports = {
         },
         status: {
             model: "Status"
+        },
+        chantier: {
+            model: "Chantier",
         },
 
         //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗

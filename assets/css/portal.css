@@ -11967,6 +11967,10 @@ button.close:focus {
     vertical-align: middle
 }
 
+.h-cell {
+    color: #f08d1f;
+}
+
 .app-card-orders-table .cell span {
     display: inline-block
 }
