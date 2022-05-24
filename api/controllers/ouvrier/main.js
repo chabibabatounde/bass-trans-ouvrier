@@ -12,8 +12,8 @@
  */
 module.exports = async function main(req, res) {
 
-    //let variables = await sails.helpers.init(req, res);
-    let variables = await sails.helpers.init(req, res);
+    let variables = { page: {} }
+        //let variables = await sails.helpers.init(req, res);
 
     variables.page.title = "Gestion des ouvriers - BASS TRANS";
     variables.page.name = "Gestion des ouvriers";
@@ -21,12 +21,16 @@ module.exports = async function main(req, res) {
     if (post) {
         let filename = post.nom + "_" + await sails.helpers.getfilename();
         post.status = 1;
+        let ouvrier = await Ouvrier.create(post).fetch();
         req.file('pieceIdentite').upload({
-            maxBytes: 1000000000,
+            maxBytes: 31457280,
             dirname: "../../assets/fileStorage/ouvrier/identity/",
-            saveAs: filename
-        }, async function(err, uploadedFile) {
-            if (uploadedFile) {
+        }, async function(err, uploadedFiles) {
+            if (uploadedFiles) {
+                for (let i = 0; i < uploadedFiles.length; i++) {
+                    let filename = uploadedFiles[i].fd.split("/");
+                    await PiecesJointes.create({ filename: filename[filename.length - 1], ouvrier: ouvrier.id })
+                }
                 if (err) {
                     console.log(err)
                     throw err
@@ -34,7 +38,6 @@ module.exports = async function main(req, res) {
             }
         });
         post.pieceIdentite = filename;
-        await Ouvrier.create(post)
         variables.page.message = post.nom + " " + post.prenom + " ajouté(e) avec succès"
     }
     variables.categories = await Categorie.find().sort("intitule ASC");

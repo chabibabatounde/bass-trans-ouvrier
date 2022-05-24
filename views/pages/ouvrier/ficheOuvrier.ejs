@@ -121,9 +121,26 @@
                             </div>
                         </div>
 
-                    </div>
-                    <div class="app-card-footer p-4 mt-auto">
-                        <a class="btn app-btn-secondary" download="<%= ouvrier.pieceIdentite %>" href="/fileStorage/ouvrier/identity/<%= ouvrier.pieceIdentite %>">Télecharger la pièce d'identité</a>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Pièces jointes (cliquer pour ouvrir)</strong></div>
+                                    <br>
+                                    <% 
+                                            for(var i=0; i< ouvrier.piecesJointes.length; i++) {
+                                                let piece = ouvrier.piecesJointes[i];
+                                            %>
+                                        <a href="/fileStorage/ouvrier/identity/<%= piece.filename %>" target="_blank" style="color:black; text-decoration:underline;">
+                                            Fichier N° <%= i+1 %>
+                                        </a>
+                                        <br>
+                                        <% 
+                                            }
+                                            %>
+                                            </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

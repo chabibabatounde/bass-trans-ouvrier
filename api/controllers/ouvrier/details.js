@@ -13,7 +13,7 @@
 module.exports = async function details(req, res) {
 
     let variables = await sails.helpers.init(req, res);
-    variables.ouvrier = await Ouvrier.findOne({ id: req.param("idouvrier") }).populate("categorie").populate("status").populate("chantier");
+    variables.ouvrier = await Ouvrier.findOne({ id: req.param("idouvrier") }).populate("piecesJointes").populate("categorie").populate("status").populate("chantier");
 
     variables.page.title = "Fiche ouvrier - BASS TRANS";
     variables.page.name = variables.ouvrier.nom + " " + variables.ouvrier.prenom;

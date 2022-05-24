@@ -29,20 +29,22 @@
                                 <label for="setting-input-1" class="form-label">Veuillez saisir les heures pour les ouvriers correspondants</label>
                             </div>
 
+
                             <div class="col-12 col-md-12">
                                 <div class="table-responsive">
                                     <table class="table mb-0 text-left" id="ouvrierListTab">
                                         <thead>
                                             <tr>
                                                 <th class="h-cell">Ouvrier</th>
+                                                <th class="h-cell">Chantier</th>
                                                 <th class="h-cell">Fonction</th>
                                                 <th class="h-cell">Nbre Heure</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <% 
-                            for(var i=0; i< chantier.membres.length; i++) {
-                                let ouvrier = chantier.membres[i];
+                            for(var i=0; i< ouvriers.length; i++) {
+                                let ouvrier = ouvriers[i];
                             %>
                                                 <tr>
                                                     <td class="cell">
@@ -50,10 +52,13 @@
                                                             <%= ouvrier.prenom %>
                                                     </td>
                                                     <td class="cell">
+                                                        <%= ouvrier.chantier.intitule %>
+                                                    </td>
+                                                    <td class="cell">
                                                         <%= ouvrier.categorie.intitule %>
                                                     </td>
                                                     <td class="cell">
-                                                        <input class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Saisir heure">
+                                                        <input class="inputHeure" idOuvrier="<%= ouvrier.id %>" idChantier="<%= ouvrier.chantier.id %>" type="number" placeholder="Saisir heure">
                                                     </td>
                                                 </tr>
                                                 <%
@@ -85,6 +90,7 @@
                             <thead>
                                 <tr>
                                     <th class="h-cell">Ouvier</th>
+                                    <th class="h-cell">Chantier</th>
                                     <th class="h-cell">Date Debut</th>
                                     <th class="h-cell">Date Fin</th>
                                     <th class="h-cell">Heures</th>
@@ -102,6 +108,9 @@
                                                 <%= pointage.ouvrier.nom %>
                                                     <%= pointage.ouvrier.prenom %>
                                             </a>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.chantier.intitule %>
                                         </td>
                                         <td class="cell">
                                             <%= pointage.dateDebut %>
@@ -160,7 +169,6 @@
                 let postData = {
                     dateDebut: $("#dateDebut").val(),
                     dateFin: $("#dateFin").val(),
-                    chantier: <%= chantier.id %>,
                     pointages: []
                 }
                 let elements = $(".inputHeure")
@@ -169,13 +177,14 @@
                     if (element.value != "" && element.value != "0") {
                         postData.pointages.push({
                             ouvrier: element.getAttribute("idOuvrier"),
+                            chantier: element.getAttribute("idChantier"),
                             heure: element.value
                         })
                     }
                 }
                 if (postData.dateDebut != "" && postData.dateFin != "") {
                     swal("Bass Trans", "Veuillez patienter pendant que nous enregistrons les données...");
-                    $.post("/api/pointage", postData, function(data) {
+                    $.post("/api/pointageouvriers", postData, function(data) {
                         setTimeout(function() {
                             location.reload()
                         }, 3000)

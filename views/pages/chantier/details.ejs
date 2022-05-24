@@ -46,6 +46,7 @@
                                     <tr>
                                         <th class="h-cell">Ouvrier</th>
                                         <th class="h-cell">Categorie</th>
+                                        <th class="h-cell">Montant/h</th>
                                         <th class="h-cell">Statut</th>
                                         <th class="h-cell">Télephone</th>
                                         <th class="h-cell">Urgence</th>
@@ -63,6 +64,9 @@
                                             </td>
                                             <td class="cell">
                                                 <%= membre.categorie.intitule %>
+                                            </td>
+                                            <td class="cell">
+                                                <%= membre.affectation.montantHoraire %>
                                             </td>
                                             <td class="cell">
                                                 <%= membre.status.intitule %>
