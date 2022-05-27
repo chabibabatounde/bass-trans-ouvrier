@@ -37,6 +37,13 @@ module.exports = {
             type: "String"
         },
 
+        dateContrat: {
+            type: "String"
+        },
+        numeroCnss: {
+            type: "String"
+        },
+
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
         //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

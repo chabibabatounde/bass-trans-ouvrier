@@ -18,7 +18,8 @@ module.exports = async function affectation(req, res) {
         await Affectation.create({
             ouvrier: ouvrier.ouvrier,
             montantHoraire: ouvrier.montant,
-            chantier: post.chantier
+            chantier: post.chantier,
+            badge: ouvrier.badge
         });
         await Ouvrier.updateOne({ id: ouvrier.ouvrier }).set({ status: 2, chantier: post.chantier });
     }

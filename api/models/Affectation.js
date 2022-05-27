@@ -21,6 +21,9 @@ module.exports = {
         montantHoraire: {
             type: "Number"
         },
+        badge: {
+            type: "String"
+        },
 
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

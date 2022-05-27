@@ -25,6 +25,7 @@ module.exports.routes = {
     '/ouvrier/details/:idouvrier': { action: 'ouvrier/details' },
     '/chantier': { action: 'chantier/main' },
     '/api/changestatus': { action: 'api/changestatus' },
+    '/api/changeouvrierstatus': { action: 'api/changeouvrierstatus' },
     '/api/pointageouvriers': { action: 'api/pointageouvriers' },
     'POST /api/pointage': { action: 'api/pointage' },
     'POST /api/affectation': { action: 'api/affectation' },
@@ -33,9 +34,8 @@ module.exports.routes = {
     '/pointage': { action: 'pointage/pointage' },
     '/pointage/chantier/:idchantier': { action: 'pointage/chantier' },
     '/pointages': { action: 'pointage/pointages' },
-
-
-
+    '/paye': { action: 'paye/main' },
+    '/paye/bulletin/:ouvrier/:du/:au': { action: 'paye/bulletin' },
 
 
     'GET /apilastpointage/:idequipe': { action: 'apilastpointage' },

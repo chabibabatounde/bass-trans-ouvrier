@@ -1,0 +1,88 @@
+<%- partial('../../includes/header') %>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+            </div>
+        </div>
+        <div class="row g-4 mb-4" id="formulaireOuvrier">
+            <div class="col-12 col-md-12">
+                <div class="app-card app-card-settings shadow-sm p-4">
+                    <form action="" method="POST">
+                        <div class="app-card-body">
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    Veuillez définir la période pour laquelle vous voulez établir le bulletin de paye puis coché l'ouvrier
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label for="setting-input-1" class="form-label">Période du</label>
+                                    <input class="form-control" name="dateDebut" type="date" required>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label for="setting-input-1" class="form-label">Au</label>
+                                    <input class="form-control" name="dateFin" type="date" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="app-card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0 text-left" id="ouvrierListTab">
+                                    <thead>
+                                        <tr>
+                                            <th class="h-cell"></th>
+                                            <th class="h-cell">Nom et Prenom</th>
+                                            <th class="h-cell">Categorie</th>
+                                            <th class="h-cell">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% 
+                                    for(var i=0; i< ouvriers.length; i++) {
+                                        let ouvrier = ouvriers[i];
+                                    %>
+                                            <tr>
+                                                <td class="cell">
+                                                    <input required name="selected" style="cursor: pointer;" type="radio" value="<%= ouvrier.id %>">
+                                                </td>
+                                                <td class="cell">
+                                                    <%= ouvrier.nom+" "+ouvrier.prenom %>
+                                                </td>
+                                                <td class="cell">
+                                                    <%= ouvrier.categorie.intitule %>
+                                                </td>
+                                                <td class="cell">
+                                                    <%= ouvrier.status.intitule %>
+                                                </td>
+                                            </tr>
+                                            <%
+                                    }
+                                    %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="app-card-body">
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <br>
+                                    <button type="submit" class="btn app-btn-primary">Enregistrer l'ouvrier</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <%- partial('../../includes/footer') %>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#ouvrierListTab').DataTable();
+            });
+        </script>

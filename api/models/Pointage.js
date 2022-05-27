@@ -19,10 +19,16 @@ module.exports = {
             type: "String"
         },
         heures: {
-            type: "String"
+            type: "Number",
+            defaultsTo: 0
+        },
+        heuresSup: {
+            type: "Number",
+            defaultsTo: 0
         },
         montantHorraire: {
-            type: "Number"
+            type: "Number",
+            defaultsTo: 0
         },
         ouvrier: {
             model: "Ouvrier"

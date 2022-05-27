@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <h4 class="app-card-title">Profile ouvrier</h4>
+                                <h4 class="app-card-title">Profil ouvrier</h4>
                             </div>
                         </div>
                     </div>
@@ -105,15 +105,16 @@
                                 <div class="col-auto">
                                     <div class="item-label"><strong>Changer le status</strong></div>
                                     <div class="item-data">
-                                        <select class="form-control" name="status" required>
+                                        <select class="form-control" id="statusOuvrier" onchange=changeStatus(this) required>
                                                 <option value="<%= ouvrier.status.id %>"><%= ouvrier.status.intitule %></option>
                                             <% 
                                             for(var i=0; i< status.length; i++) {
                                                 let stat = status[i];
+                                                if(stat.id != 2){
                                             %>
                                                 <option value="<%= stat.id %>"><%= stat.intitule %></option>
                                             <% 
-                                            }
+                                            }}
                                             %>
                                             </select>
                                     </div>
@@ -150,7 +151,30 @@
     <%- partial('../../includes/footer') %>
 
         <script type="text/javascript">
+            let currentStatus = <%= ouvrier.status.id %>;
             $(document).ready(function() {
                 $('#ouvrierListTab').DataTable();
             });
+
+            function changeStatus(element) {
+                if (element.value != currentStatus) {
+                    swal({
+                            title: "Désirez vous choisir le statut [" + $("#statusOuvrier option:selected").text() + "] pour <%= ouvrier.nom %> <%= ouvrier.prenom %> ?",
+                            text: "",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                $.post("/api/changeouvrierstatus", {
+                                    id: <%= ouvrier.id %>,
+                                    status: element.value
+                                }, function(data) {
+                                    location.reload();
+                                });
+                            }
+                        });
+                }
+            }
         </script>

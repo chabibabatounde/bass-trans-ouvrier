@@ -15,6 +15,7 @@
                                         <th class="h-cell"></th>
                                         <th class="h-cell">Nom et Prénom</th>
                                         <th class="h-cell">Fonction</th>
+                                        <th class="h-cell">N° Badge</th>
                                         <th class="h-cell">Montant Horraire</th>
                                     </tr>
                                 </thead>
@@ -34,7 +35,10 @@
                                                 <%= ouvrier.categorie.intitule %>
                                             </td>
                                             <td class="cell">
-                                                <input type="" value="<%= ouvrier.categorie.montantHorraire %>" class="tab_input" id="tabinput<%= ouvrier.id %>" disabled>
+                                                <input type="" value="" placeholder="N° de Badge" class="badge_input" id="badgeinput<%= ouvrier.id %>" disabled>
+                                            </td>
+                                            <td class="cell">
+                                                <input type="" placeholder="Montant Horraire" value="<%= ouvrier.categorie.montantHorraire %>" class="tab_input" id="tabinput<%= ouvrier.id %>" disabled>
                                             </td>
                                         </tr>
                                         <% 

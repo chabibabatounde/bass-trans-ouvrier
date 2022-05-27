@@ -46,6 +46,7 @@
                                     <tr>
                                         <th class="h-cell">Ouvrier</th>
                                         <th class="h-cell">Categorie</th>
+                                        <th class="h-cell">N° Badge</th>
                                         <th class="h-cell">Montant/h</th>
                                         <th class="h-cell">Statut</th>
                                         <th class="h-cell">Télephone</th>
@@ -64,6 +65,9 @@
                                             </td>
                                             <td class="cell">
                                                 <%= membre.categorie.intitule %>
+                                            </td>
+                                            <td class="cell">
+                                                <%= membre.affectation.badge %>
                                             </td>
                                             <td class="cell">
                                                 <%= membre.affectation.montantHoraire %>
@@ -103,9 +107,11 @@
                 function selectUser(checkbox) {
                     if (checkbox.getAttribute("status") == "0") {
                         $("#tabinput" + checkbox.getAttribute('inputid')).prop("disabled", false);
+                        $("#badgeinput" + checkbox.getAttribute('inputid')).prop("disabled", false);
                         checkbox.setAttribute("status", "1");
                     } else {
                         $("#tabinput" + checkbox.getAttribute('inputid')).prop("disabled", true);
+                        $("#badgeinput" + checkbox.getAttribute('inputid')).prop("disabled", true);
                         checkbox.setAttribute("status", "0");
                     }
                 }
@@ -119,7 +125,8 @@
                             let idOuvrier = checkbox.getAttribute("inputid");
                             ouvriers.push({
                                 ouvrier: idOuvrier,
-                                montant: $("#tabinput" + idOuvrier).val()
+                                montant: $("#tabinput" + idOuvrier).val(),
+                                badge: $("#badgeinput" + idOuvrier).val()
                             });
                         }
                     }

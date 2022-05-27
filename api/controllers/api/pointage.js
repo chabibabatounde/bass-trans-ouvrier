@@ -21,6 +21,7 @@ module.exports = async function pointage(req, res) {
             dateFin: post.dateFin,
             ouvrier: element.ouvrier,
             heures: element.heure,
+            heuresSup: element.heureSup,
             montantHorraire: affectation[0].montantHoraire,
             chantier: post.chantier,
         })

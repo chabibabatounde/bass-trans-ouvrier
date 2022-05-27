@@ -35,10 +35,12 @@
                                     <table class="table mb-0 text-left" id="ouvrierListTab">
                                         <thead>
                                             <tr>
+                                                <th class="h-cell">N° Badge</th>
                                                 <th class="h-cell">Ouvrier</th>
-                                                <th class="h-cell">Chantier</th>
                                                 <th class="h-cell">Fonction</th>
                                                 <th class="h-cell">Nbre Heure</th>
+                                                <th class="h-cell">Heure Sup</th>
+                                                <th class="h-cell">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -48,17 +50,23 @@
                             %>
                                                 <tr>
                                                     <td class="cell">
-                                                        <%= ouvrier.nom %>
-                                                            <%= ouvrier.prenom %>
+                                                        <%= ouvrier.affectation.badge %>
                                                     </td>
                                                     <td class="cell">
-                                                        <%= ouvrier.chantier.intitule %>
+                                                        <%= ouvrier.nom %>
+                                                            <%= ouvrier.prenom %>
                                                     </td>
                                                     <td class="cell">
                                                         <%= ouvrier.categorie.intitule %>
                                                     </td>
                                                     <td class="cell">
-                                                        <input class="inputHeure" idOuvrier="<%= ouvrier.id %>" idChantier="<%= ouvrier.chantier.id %>" type="number" placeholder="Saisir heure">
+                                                        <input idChantier="<%= ouvrier.chantier.id %>" onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heure<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Saisir heure">
+                                                    </td>
+                                                    <td class="cell">
+                                                        <input idChantier="<%= ouvrier.chantier.id %>" value="0" onchange="calculTotal(<%= ouvrier.id %>)" onkeyup="calculTotal(<%= ouvrier.id %>)" id="heuresup<%= ouvrier.id %>" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Heure sup.">
+                                                    </td>
+                                                    <td class="cell" id="total<%= ouvrier.id %>">
+                                                        0
                                                     </td>
                                                 </tr>
                                                 <%
@@ -91,9 +99,10 @@
                                 <tr>
                                     <th class="h-cell">Ouvier</th>
                                     <th class="h-cell">Chantier</th>
-                                    <th class="h-cell">Date Debut</th>
-                                    <th class="h-cell">Date Fin</th>
+                                    <th class="h-cell">Période</th>
                                     <th class="h-cell">Heures</th>
+                                    <th class="h-cell">Heure Sup</th>
+                                    <th class="h-cell">Total</th>
                                     <th class="h-cell"></th>
                                 </tr>
                             </thead>
@@ -114,12 +123,17 @@
                                         </td>
                                         <td class="cell">
                                             <%= pointage.dateDebut %>
-                                        </td>
-                                        <td class="cell">
-                                            <%= pointage.dateFin %>
+                                                au
+                                                <%= pointage.dateFin %>
                                         </td>
                                         <td class="cell">
                                             <%= pointage.heures %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.heuresSup %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.heuresSup+pointage.heures %>
                                         </td>
                                         <td class="cell">
                                             <a class="btn-sm app-btn-secondary" style="cursor: pointer;" onclick="deleteLine(<%= pointage.id %>)">X</a>
@@ -165,6 +179,18 @@
 
             }
 
+            function calculTotal(idOuvrier) {
+                let hSup = 0
+                let heure = 0
+                if ($("#heuresup" + idOuvrier).val() != "") {
+                    hSup = parseFloat($("#heuresup" + idOuvrier).val());
+                }
+                if ($("#heure" + idOuvrier).val() != "") {
+                    heure = parseFloat($("#heure" + idOuvrier).val());
+                }
+                $("#total" + idOuvrier).html(hSup + heure)
+            }
+
             function submitHeure() {
                 let postData = {
                     dateDebut: $("#dateDebut").val(),
@@ -178,7 +204,8 @@
                         postData.pointages.push({
                             ouvrier: element.getAttribute("idOuvrier"),
                             chantier: element.getAttribute("idChantier"),
-                            heure: element.value
+                            heure: element.value,
+                            heureSup: $("#heuresup" + element.getAttribute("idOuvrier")).val()
                         })
                     }
                 }
