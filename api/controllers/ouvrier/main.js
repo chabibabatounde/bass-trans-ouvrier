@@ -32,7 +32,6 @@ module.exports = async function main(req, res) {
                     await PiecesJointes.create({ filename: filename[filename.length - 1], ouvrier: ouvrier.id })
                 }
                 if (err) {
-                    console.log(err)
                     throw err
                 }
             }

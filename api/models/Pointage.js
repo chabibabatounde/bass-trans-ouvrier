@@ -15,7 +15,13 @@ module.exports = {
         dateDebut: {
             type: "String"
         },
+        dateDebutInt: {
+            type: "String"
+        },
         dateFin: {
+            type: "String"
+        },
+        dateFinInt: {
             type: "String"
         },
         heures: {
