@@ -12,7 +12,8 @@
  */
 module.exports = async function main(req, res) {
 
-    let variables = { page: {} }
+    //let variables = { page: {} }
+    let variables = await sails.helpers.init(req, res);
     variables.page.title = "Etablissement du bulletin de paye - BASS TRANS";
     variables.page.name = "Bulletin de paye"
     variables.ouvriers = await Ouvrier.find().populate("chantier").populate("categorie").populate("status");

@@ -12,8 +12,8 @@
  */
 module.exports = async function main(req, res) {
 
-    let variables = { page: {} }
-        //let variables = await sails.helpers.init(req, res);
+    //let variables = { page: {} }
+    let variables = await sails.helpers.init(req, res);
 
     variables.page.title = "Gestion des ouvriers - BASS TRANS";
     variables.page.name = "Gestion des ouvriers";

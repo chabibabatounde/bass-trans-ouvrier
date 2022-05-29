@@ -11,7 +11,8 @@
  * Bulletin paye.
  */
 module.exports = async function bulletin(req, res) {
-    let variables = { page: {} }
+    let variables = await sails.helpers.init(req, res);
+    //let variables = { page: {} }
     let post = {
         selected: req.param("ouvrier"),
         du: req.param("du"),

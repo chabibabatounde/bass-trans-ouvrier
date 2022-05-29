@@ -12,7 +12,8 @@
  */
 module.exports = async function parametres(req, res) {
 
-    let variables = { page: {} }
+    let variables = await sails.helpers.init(req, res);
+
     variables.categories = await Categorie.find();
 
     variables.page.title = "Parametres - BASS TRANS";

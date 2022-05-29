@@ -12,7 +12,8 @@
  */
 module.exports = async function details(req, res) {
 
-    let variables = { page: {} }
+    //let variables = { page: {} }
+    let variables = await sails.helpers.init(req, res);
 
     variables.page.title = "Assignation des ouvriers";
     let chantier = await Chantier.findOne({ id: req.param("idchantier") });
