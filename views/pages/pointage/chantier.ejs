@@ -1,5 +1,10 @@
 <%- partial('../../includes/header') %>
-
+    <script type="text/javascript">
+        var pages = <%= chantier.membres.length%>;
+        if (pages % 10 != 0) {
+            pages = parseInt(pages / 10) + 1;
+        }
+    </script>
     <div class="col-auto">
         <div class="page-utilities">
             <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
@@ -36,9 +41,10 @@
                                             <tr>
                                                 <th class="h-cell">N° Badge</th>
                                                 <th class="h-cell">Ouvrier</th>
-                                                <th class="h-cell">Fonction</th>
-                                                <th class="h-cell">Nbre Heure</th>
-                                                <th class="h-cell">Heure Sup</th>
+                                                <th class="h-cell">H.Jour</th>
+                                                <th class="h-cell">H.Sup.Jour</th>
+                                                <th class="h-cell">H.Nuit</th>
+                                                <th class="h-cell">H.Sup.Nuit</th>
                                                 <th class="h-cell">Total</th>
                                             </tr>
                                         </thead>
@@ -47,9 +53,7 @@
                             for(var i=0; i< chantier.membres.length; i++) {
                                 let ouvrier = chantier.membres[i];
                             %>
-
-
-                                                <tr>
+                                                <tr idOuvrier="<%= ouvrier.id %>" class="ligneInput">
                                                     <td class="cell">
                                                         <%= ouvrier.affectation.badge %>
                                                     </td>
@@ -58,13 +62,16 @@
                                                             <%= ouvrier.prenom %>
                                                     </td>
                                                     <td class="cell">
-                                                        <%= ouvrier.categorie.intitule %>
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNormale<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H. de Jour">
                                                     </td>
                                                     <td class="cell">
-                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" id="heure<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Saisir heure">
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNormaleSup<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H.Sup.Jour">
                                                     </td>
                                                     <td class="cell">
-                                                        <input value="0" onkeyup="calculTotal(<%= ouvrier.id %>)" id="heuresup<%= ouvrier.id %>" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Heure sup.">
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNuit<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H. de Nuit">
+                                                    </td>
+                                                    <td class="cell">
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNuitSup<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H.Sup.Nuit">
                                                     </td>
                                                     <td class="cell" id="total<%= ouvrier.id %>">
                                                         0
@@ -101,8 +108,10 @@
                                     <th class="h-cell">N° Badge</th>
                                     <th class="h-cell">Ouvier</th>
                                     <th class="h-cell">Période</th>
-                                    <th class="h-cell">Heures</th>
-                                    <th class="h-cell">Heure Sup</th>
+                                    <th class="h-cell">H.Jour</th>
+                                    <th class="h-cell">H.Sup.Jour</th>
+                                    <th class="h-cell">H.Nuit</th>
+                                    <th class="h-cell">H.Sup.Nuit</th>
                                     <th class="h-cell">Total</th>
                                     <th class="h-cell"></th>
                                 </tr>
@@ -128,13 +137,19 @@
                                                 <%= pointage.dateFin %>
                                         </td>
                                         <td class="cell">
-                                            <%= pointage.heures %>
+                                            <%= pointage.heuresNormale %>
                                         </td>
                                         <td class="cell">
-                                            <%= pointage.heuresSup %>
+                                            <%= pointage.heuresNormaleSup %>
                                         </td>
                                         <td class="cell">
-                                            <%= pointage.heures + pointage.heuresSup %>
+                                            <%= pointage.heuresNuit %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.heuresNuitSup %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= + pointage.heuresNuitSup + pointage.heuresNuit+ pointage.heuresNormaleSup + pointage.heuresNormale %>
                                         </td>
                                         <td class="cell">
                                             <a class="btn-sm app-btn-secondary" style="cursor: pointer;" onclick="deleteLine(<%= pointage.id %>)">X</a>
@@ -153,6 +168,12 @@
     </div>
 
     <%- partial('../../includes/footer') %>
+
+        <style>
+            .inputHeure {
+                width: 100px;
+            }
+        </style>
 
         <script type="text/javascript">
             $(document).ready(function() {
@@ -181,16 +202,23 @@
             }
 
             function calculTotal(idOuvrier) {
-                let hSup = 0
-                let heure = 0
-                if ($("#heuresup" + idOuvrier).val() != "") {
-                    hSup = parseFloat($("#heuresup" + idOuvrier).val());
+                let heuresNuitSup = 0
+                let heuresNuit = 0
+                let heuresNormaleSup = 0
+                let heuresNormale = 0
+                if ($("#heuresNuitSup" + idOuvrier).val() != "") {
+                    heuresNuitSup = parseFloat($("#heuresNuitSup" + idOuvrier).val());
                 }
-                if ($("#heure" + idOuvrier).val() != "") {
-                    heure = parseFloat($("#heure" + idOuvrier).val());
+                if ($("#heuresNuit" + idOuvrier).val() != "") {
+                    heuresNuit = parseFloat($("#heuresNuit" + idOuvrier).val());
                 }
-
-                $("#total" + idOuvrier).html(hSup + heure)
+                if ($("#heuresNormaleSup" + idOuvrier).val() != "") {
+                    heuresNormaleSup = parseFloat($("#heuresNormaleSup" + idOuvrier).val());
+                }
+                if ($("#heuresNormale" + idOuvrier).val() != "") {
+                    heuresNormale = parseFloat($("#heuresNormale" + idOuvrier).val());
+                }
+                $("#total" + idOuvrier).html(heuresNuitSup + heuresNuit + heuresNormaleSup + heuresNormale)
             }
 
             function submitHeure() {
@@ -200,26 +228,44 @@
                     chantier: <%= chantier.id %>,
                     pointages: []
                 }
-                let elements = $(".inputHeure")
-                for (let i = 0; i < elements.length; i++) {
-                    let element = elements[i];
-                    if (element.value != "" && element.value != "0") {
-                        postData.pointages.push({
-                            ouvrier: element.getAttribute("idOuvrier"),
-                            heure: element.value,
-                            heureSup: $("#heuresup" + element.getAttribute("idOuvrier")).val()
-                        })
-                    }
-                }
                 if (postData.dateDebut != "" && postData.dateFin != "") {
                     swal("Bass Trans", "Veuillez patienter pendant que nous enregistrons les données...");
+                    for (let i = 0; i < pages; i++) {
+                        $("#ouvrierListTab_previous").click();
+                    }
+                    for (let i = 1; i <= pages; i++) {
+                        let lignes = $('.ligneInput');
+                        for (let j = 0; j < lignes.length; j++) {
+                            let ligne = lignes[j];
+                            let idOuvrier = ligne.getAttribute('idouvrier');
+                            let heuresNormale = $("#heuresNormale" + idOuvrier).val();
+                            let heuresNormaleSup = $("#heuresNormaleSup" + idOuvrier).val();
+                            let heuresNuit = $("#heuresNuit" + idOuvrier).val();
+                            let heuresNuitSup = $("#heuresNuitSup" + idOuvrier).val();
+                            if ((heuresNormale != undefined && heuresNormale != "") || (heuresNormaleSup != undefined && heuresNormaleSup != "") || (heuresNuit != undefined && heuresNuit != "") || (heuresNuitSup != undefined && heuresNuitSup != "")) {
+                                postData.pointages.push({
+                                    ouvrier: idOuvrier,
+                                    heuresNormale: heuresNormale,
+                                    heuresNormaleSup: heuresNormaleSup,
+                                    heuresNuit: heuresNuit,
+                                    heuresNuitSup: heuresNuitSup,
+                                });
+                            }
+                        }
+                        if (i < pages) {
+                            $("#ouvrierListTab_next").click();
+                        }
+                    }
                     $.post("/api/pointage", postData, function(data) {
                         setTimeout(function() {
                             location.reload()
                         }, 3000)
                     })
                 } else {
-                    swal("Veuillez définir correctememnt la date de début et la date de fin", "", "error")
+                    swal("Veuillez définir correctememnt la date de début et la date de fin", "", "error");
+                    for (let i = 0; i < pages; i++) {
+                        $("#ouvrierListTab_previous").click();
+                    }
                 }
             }
         </script>

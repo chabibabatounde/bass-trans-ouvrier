@@ -1,0 +1,51 @@
+<%- partial('../../includes/header') %>
+
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+            </div>
+        </div>
+
+
+        <div class="row g-4 mb-4">
+            <div class="col-12 col-md-12">
+                <div class="app-card app-card-settings shadowd-sm p-4" style="" id="selectchanter">
+                    <div class="app-card-body">
+                        <form action="/etats/bilan" method="post">
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label for="setting-input-1" class="form-label">Date de début</label>
+                                    <input class="form-control" name="dateDebut" type="date" required>
+                                </div>
+                                <div class="col-6 mb-3">
+                                    <label for="setting-input-1" class="form-label">Date de fin</label>
+                                    <input class="form-control" name="dateFin" type="date" required>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="setting-input-1" class="form-label">Choisir le chantier</label>
+                                    <select class="form-control" name="chantier" required>
+                                    <option value=""> -- Chantier -- </option>
+                                    <% 
+                                        for(var i=0; i< chantiers.length; i++) {
+                                            let chantier = chantiers[i];
+                                        %>
+                                            <option value="<%= chantier.id %>"> <%= chantier.intitule %> </option>
+                                        <%
+                                        }
+                                        %>
+                                </select>
+                                </div>
+
+
+                                <div class="col-6 col-lg-3 mb-3">
+                                    <button type="submit" class="btn app-btn-primary"> Valider </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- partial('../../includes/footer') %>

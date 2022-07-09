@@ -35,18 +35,17 @@
 
     <%- partial("details-form") %>
 
-
         <div class="row g-4 mb-4" id="listeOuvrier">
             <div class="col-12 col-md-12">
                 <div class="app-card app-card-settings shadow-sm p-4">
                     <div class="app-card-body">
                         <div class="table-responsive">
-                            <table class="table mb-0 text-left" id="ouvrierListTab">
+                            <table class="table mb-0 text-left" id="ouvrierListTabs">
                                 <thead>
                                     <tr>
+                                        <th class="h-cell">N° Badge</th>
                                         <th class="h-cell">Ouvrier</th>
                                         <th class="h-cell">Categorie</th>
-                                        <th class="h-cell">N° Badge</th>
                                         <th class="h-cell">Montant/h</th>
                                         <th class="h-cell">Statut</th>
                                         <th class="h-cell">Télephone</th>
@@ -59,15 +58,16 @@
                                 for(var i=0; i< chantier.membres.length; i++) {
                                     let membre = chantier.membres[i];
                                 %>
+
                                         <tr>
+                                            <td class="cell">
+                                                <%= membre.affectation.badge %>
+                                            </td>
                                             <td class="cell">
                                                 <%= membre.nom+" "+membre.prenom %>
                                             </td>
                                             <td class="cell">
                                                 <%= membre.categorie.intitule %>
-                                            </td>
-                                            <td class="cell">
-                                                <%= membre.affectation.badge %>
                                             </td>
                                             <td class="cell">
                                                 <%= membre.affectation.montantHoraire %>
@@ -101,37 +101,54 @@
         <%- partial('../../includes/footer') %>
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $('#ouvrierListTab').DataTable();
+                    $('#ouvrierListTabs').DataTable();
+                    $('#ouvrierListTabsA').DataTable();
                 });
 
                 function selectUser(checkbox) {
                     if (checkbox.getAttribute("status") == "0") {
-                        $("#tabinput" + checkbox.getAttribute('inputid')).prop("disabled", false);
+                        $("#montahtinput" + checkbox.getAttribute('inputid')).prop("disabled", false);
                         $("#badgeinput" + checkbox.getAttribute('inputid')).prop("disabled", false);
                         checkbox.setAttribute("status", "1");
                     } else {
-                        $("#tabinput" + checkbox.getAttribute('inputid')).prop("disabled", true);
+                        $("#montahtinput" + checkbox.getAttribute('inputid')).prop("disabled", true);
                         $("#badgeinput" + checkbox.getAttribute('inputid')).prop("disabled", true);
                         checkbox.setAttribute("status", "0");
                     }
                 }
 
                 function submitAffectation() {
-                    let checkBoxs = $(".check-box");
-                    let ouvriers = []
-                    for (let i = 0; i < checkBoxs.length; i++) {
-                        let checkbox = checkBoxs[i];
-                        if (checkbox.getAttribute("status") == "1") {
-                            let idOuvrier = checkbox.getAttribute("inputid");
-                            ouvriers.push({
-                                ouvrier: idOuvrier,
-                                montant: $("#tabinput" + idOuvrier).val(),
-                                badge: $("#badgeinput" + idOuvrier).val()
-                            });
+                    let ouvriers = [];
+                    // revenir à la page 1 (modulo et click de previous)
+                    for (let i = 0; i < pages; i++) {
+                        $("#ouvrierListTabsA_previous").click();
+                    }
+                    for (let i = 1; i <= pages; i++) {
+                        // Récupérer les checkbox de la pages
+                        let lignes = $('.check-box-sel');
+                        for (let j = 0; j < lignes.length; j++) {
+                            let checkbox = lignes[j];
+                            if (checkbox.checked) {
+                                let ouvrier = checkbox.getAttribute("inputid");
+                                let badge = $("#badgeinput" + ouvrier).val();
+                                let montant = $("#montahtinput" + ouvrier).val();
+                                ouvriers.push({
+                                    ouvrier: ouvrier,
+                                    montant: montant,
+                                    badge: badge
+                                });
+                            }
+                        }
+                        if (i < pages) {
+                            $("#ouvrierListTabsA_next").click();
                         }
                     }
+
                     if (ouvriers.length == 0) {
                         swal("Aucun ouvrier n'a été sélectionné", "", "error");
+                        for (let i = 0; i < pages; i++) {
+                            $("#ouvrierListTabsA_previous").click();
+                        }
                     } else {
                         swal({
                                 title: "Ajouter " + ouvriers.length + " ouvrier(s) au chantier <%= chantier.intitule %> ? ",

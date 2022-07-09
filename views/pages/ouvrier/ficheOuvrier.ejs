@@ -28,7 +28,7 @@
                         <div class="item border-bottom py-3">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col text-end">
-                                    <a class="btn-sm app-btn-secondary" href="#">Modifier ouvrier</a>
+                                    <a class="btn-sm app-btn-secondary" href="/ouvrier/edit/<%= ouvrier.id %>">Modifier ouvrier</a>
                                 </div>
                             </div>
                         </div>
@@ -46,10 +46,19 @@
                         <div class="item border-bottom py-3">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col-auto">
-                                    <div class="item-label"><strong>Date et lieu de naissance</strong></div>
+                                    <div class="item-label"><strong>Date de naissance</strong></div>
                                     <div class="item-data">
-                                        <%= ouvrier.dateNaissance %> à
-                                            <%= ouvrier.lieuNaissance %>
+                                        <%= ouvrier.dateNaissance %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item border-bottom py-3">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <div class="item-label"><strong>Lieu de naissance</strong></div>
+                                    <div class="item-data">
+                                        <%= ouvrier.lieuNaissance %>
                                     </div>
                                 </div>
                             </div>

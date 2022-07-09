@@ -1,5 +1,7 @@
 <%- partial('../../includes/header') %>
-
+    <script type="text/javascript">
+        var elements = [];
+    </script>
     <div class="col-auto">
         <div class="page-utilities">
             <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
@@ -37,18 +39,19 @@
                                             <tr>
                                                 <th class="h-cell">N° Badge</th>
                                                 <th class="h-cell">Ouvrier</th>
-                                                <th class="h-cell">Fonction</th>
-                                                <th class="h-cell">Nbre Heure</th>
-                                                <th class="h-cell">Heure Sup</th>
+                                                <th class="h-cell">H.Jour</th>
+                                                <th class="h-cell">H.Sup.Jour</th>
+                                                <th class="h-cell">H.Nuit</th>
+                                                <th class="h-cell">H.Sup.Nuit</th>
                                                 <th class="h-cell">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <% 
-                            for(var i=0; i< ouvriers.length; i++) {
-                                let ouvrier = ouvriers[i];
-                            %>
-                                                <tr>
+                                            for(var i=0; i< ouvriers.length; i++) {
+                                                let ouvrier = ouvriers[i];
+                                            %>
+                                                <tr idOuvrier="<%= ouvrier.id %>" class="ligneInput">
                                                     <td class="cell">
                                                         <%= ouvrier.affectation.badge %>
                                                     </td>
@@ -57,19 +60,26 @@
                                                             <%= ouvrier.prenom %>
                                                     </td>
                                                     <td class="cell">
-                                                        <%= ouvrier.categorie.intitule %>
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNormale<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H. de Jour">
                                                     </td>
                                                     <td class="cell">
-                                                        <input idChantier="<%= ouvrier.chantier.id %>" onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heure<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Saisir heure">
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNormaleSup<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H.Sup.Jour">
                                                     </td>
                                                     <td class="cell">
-                                                        <input idChantier="<%= ouvrier.chantier.id %>" value="0" onchange="calculTotal(<%= ouvrier.id %>)" onkeyup="calculTotal(<%= ouvrier.id %>)" id="heuresup<%= ouvrier.id %>" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="Heure sup.">
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNuit<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H. de Nuit">
+                                                    </td>
+                                                    <td class="cell">
+                                                        <input onkeyup="calculTotal(<%= ouvrier.id %>)" onchange="calculTotal(<%= ouvrier.id %>)" id="heuresNuitSup<%= ouvrier.id %>" class="inputHeure" idOuvrier="<%= ouvrier.id %>" type="number" placeholder="H.Sup.Nuit">
                                                     </td>
                                                     <td class="cell" id="total<%= ouvrier.id %>">
                                                         0
                                                     </td>
                                                 </tr>
+                                                <script type="text/javascript">
+                                                    elements.push(<%= ouvrier.id %>);
+                                                </script>
                                                 <%
+                                                
                             }
                             %>
                                         </tbody>
@@ -88,8 +98,6 @@
             </div>
         </div>
 
-
-
         <div class="col-12 col-md-12">
             <div class="app-card app-card-settings shadow-sm p-4">
                 <div class="app-card-body">
@@ -97,11 +105,13 @@
                         <table class="table mb-0 text-left" id="ouvrierAffectedListTab">
                             <thead>
                                 <tr>
+                                    <th class="h-cell">N° Badge</th>
                                     <th class="h-cell">Ouvier</th>
-                                    <th class="h-cell">Chantier</th>
                                     <th class="h-cell">Période</th>
-                                    <th class="h-cell">Heures</th>
-                                    <th class="h-cell">Heure Sup</th>
+                                    <th class="h-cell">H.Jour</th>
+                                    <th class="h-cell">H.Sup.Jour</th>
+                                    <th class="h-cell">H.Nuit</th>
+                                    <th class="h-cell">H.Sup.Nuit</th>
                                     <th class="h-cell">Total</th>
                                     <th class="h-cell"></th>
                                 </tr>
@@ -113,13 +123,13 @@
                                 %>
                                     <tr>
                                         <td class="cell">
+                                            <%= pointage.affectation.badge %>
+                                        </td>
+                                        <td class="cell">
                                             <a href="/ouvrier/details/<%= pointage.ouvrier.id %>" style='color: black; text-decoration: underline;'>
                                                 <%= pointage.ouvrier.nom %>
                                                     <%= pointage.ouvrier.prenom %>
                                             </a>
-                                        </td>
-                                        <td class="cell">
-                                            <%= pointage.chantier.intitule %>
                                         </td>
                                         <td class="cell">
                                             <%= pointage.dateDebut %>
@@ -127,13 +137,19 @@
                                                 <%= pointage.dateFin %>
                                         </td>
                                         <td class="cell">
-                                            <%= pointage.heures %>
+                                            <%= pointage.heuresNormale %>
                                         </td>
                                         <td class="cell">
-                                            <%= pointage.heuresSup %>
+                                            <%= pointage.heuresNormaleSup %>
                                         </td>
                                         <td class="cell">
-                                            <%= pointage.heuresSup+pointage.heures %>
+                                            <%= pointage.heuresNuit %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= pointage.heuresNuitSup %>
+                                        </td>
+                                        <td class="cell">
+                                            <%= + pointage.heuresNuitSup + pointage.heuresNuit+ pointage.heuresNormaleSup + pointage.heuresNormale %>
                                         </td>
                                         <td class="cell">
                                             <a class="btn-sm app-btn-secondary" style="cursor: pointer;" onclick="deleteLine(<%= pointage.id %>)">X</a>
@@ -149,9 +165,15 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <%- partial('../../includes/footer') %>
+        <style>
+            .inputHeure {
+                width: 100px;
+            }
+        </style>
 
         <script type="text/javascript">
             $(document).ready(function() {

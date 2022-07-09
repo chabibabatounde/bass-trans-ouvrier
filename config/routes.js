@@ -23,6 +23,7 @@ module.exports.routes = {
     'GET /': { action: 'accueil' },
     '/ouvrier': { action: 'ouvrier/main' },
     '/ouvrier/details/:idouvrier': { action: 'ouvrier/details' },
+    '/ouvrier/edit/:idouvrier': { action: 'ouvrier/edit' },
     '/chantier': { action: 'chantier/main' },
     '/api/changestatus': { action: 'api/changestatus' },
     '/api/changeouvrierstatus': { action: 'api/changeouvrierstatus' },
@@ -43,6 +44,9 @@ module.exports.routes = {
     '/equipe/details/:idequipe': { action: 'managequipe' },
     'GET /apipointage/:idequipe': { action: 'apipointage' },
     'POST /apipointagemark': { action: 'apipointagemark' },
+
+    'GET /etats': { action: 'etats/main' },
+    'POST /etats/bilan': { action: 'etats/bilan' },
 
 
 

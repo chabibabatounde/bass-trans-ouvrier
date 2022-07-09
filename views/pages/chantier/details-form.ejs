@@ -6,15 +6,20 @@
                     <div class="col-12 mb-3">
                         <label for="setting-input-1" class="form-label">Cocher les ouvriers à affecter au chantier et définissez le montant horraire correspondant.</label>
                     </div>
-
+                    <script type="text/javascript">
+                        var pages = <%=  ouvriers.length %>;
+                        if (pages % 10 != 0) {
+                            pages = parseInt(pages / 10) + 1;
+                        }
+                    </script>
                     <div class="col-12 mb-3">
                         <div class="table-responsive">
-                            <table class="table mb-0 text-left" id="ouvrierListTab">
+                            <table class="table mb-0 text-left" id="ouvrierListTabsA">
                                 <thead>
                                     <tr>
                                         <th class="h-cell"></th>
                                         <th class="h-cell">Nom et Prénom</th>
-                                        <th class="h-cell">Fonction</th>
+                                        <th class="h-cell">Qualification</th>
                                         <th class="h-cell">N° Badge</th>
                                         <th class="h-cell">Montant Horraire</th>
                                     </tr>
@@ -24,9 +29,9 @@
                                         for(var i=0; i< ouvriers.length; i++) {
                                             let ouvrier = ouvriers[i];
                                         %>
-                                        <tr>
+                                        <tr class="ouvrier_ligne">
                                             <td class="cell">
-                                                <input class="form-check-input check-box" status="0" onclick="selectUser(this)" inputid="<%= ouvrier.id %>" type="checkbox" id="settings-switch-1">
+                                                <input class="form-check-input check-box-sel" id="champ<%= ouvrier.id %>" status="0" onclick="selectUser(this)" inputid="<%= ouvrier.id %>" type="checkbox">
                                             </td>
                                             <td class="cell">
                                                 <%= ouvrier.nom+" "+ouvrier.prenom %>
@@ -38,7 +43,7 @@
                                                 <input type="" value="" placeholder="N° de Badge" class="badge_input" id="badgeinput<%= ouvrier.id %>" disabled>
                                             </td>
                                             <td class="cell">
-                                                <input type="number" placeholder="Montant Horraire" value="<%= ouvrier.categorie.montantHorraire %>" class="tab_input" id="tabinput<%= ouvrier.id %>" disabled>
+                                                <input type="number" placeholder="Montant Horraire" value="<%= ouvrier.categorie.montantHorraire %>" class="tab_input" id="montahtinput<%= ouvrier.id %>" disabled>
                                             </td>
                                         </tr>
                                         <% 

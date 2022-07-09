@@ -1,0 +1,134 @@
+<%- partial('../../includes/header') %>
+    <div class="row g-4 mb-4" id="formulaireOuvrier" style="">
+        <div class="col-12 col-md-12">
+            <div class="app-card app-card-settings shadow-sm p-4">
+                <div class="app-card-body">
+                    <form class="settings-form" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Nom</label>
+                                <input class="form-control" value="<%= ouvrier.nom %>" name="nom" placeholder="Nom de l'ouvrier" required>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Prénom</label>
+                                <input class="form-control" value="<%= ouvrier.prenom %>" name="prenom" placeholder="Prénom de l'ouvrier" required>
+                            </div>
+
+                            <div class="col-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Date de Naissance</label>
+                                <input class="form-control" value="<%= ouvrier.dateNaissance %>" name="dateNaissance" placeholder="Date de Naissance" type="date">
+                            </div>
+
+                            <div class="col-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Lieu de Naissance</label>
+                                <input class="form-control" value="<%= ouvrier.lieuNaissance %>" name="lieuNaissance" placeholder="Date de Naissance" type="text">
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Categorie</label>
+                                <select class="form-control" name="categorie" required>
+                                <option value="<%= ouvrier.categorie.id %>"><%= ouvrier.categorie.intitule %></option>
+
+                            <%
+                            
+                            for(var i=0; i< categories.length; i++) {
+                                let categorie = categories[i];
+                            %>
+                                <option value="<%= categorie.id %>"><%= categorie.intitule %></option>
+                            <% 
+                            }
+                            
+                            %>
+                            </select>
+                            </div>
+
+                            <div class="col-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Contact</label>
+                                <input value="<%= ouvrier.contact %>" class="form-control" name="contact" placeholder="Numéro de téléphone" type="text" required>
+                            </div>
+
+                            <div class="col-3 mb-3">
+                                <label for="setting-input-1" class="form-label">Email</label>
+                                <input value="<%= ouvrier.email %>" class="form-control" name="email" placeholder="Date de Naissance" type="text">
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Adresse</label>
+                                <input class="form-control" value="<%= ouvrier.adresse %>" name="adresse" placeholder="Carré/Maison, Quartier, Ville, Pays" type="text" required>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Date de contrat</label>
+                                <input class="form-control" value="<%= ouvrier.dateContrat %>" name="dateContrat" placeholder="Date de début du contrat" type="date">
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Numero CNSS</label>
+                                <input class="form-control" value="<%= ouvrier.numeroCnss %>" name="numeroCnss" placeholder="Numero CNSS" type="text">
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Contact d'urgence</label>
+                                <input class="form-control" value="<%= ouvrier.urgence %>" name="urgence" placeholder="Nom, prénom et téléphone" type="text" required>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="setting-input-1" class="form-label">Pieces jointes</label>
+                                <input class="form-control" name="pieceIdentite" placeholder="Nom, prénom et téléphone" type="file" multiple>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-auto">
+                                        <div class="item-label"><strong>Pièces jointes (cliquer pour ouvrir)</strong></div>
+                                        <br>
+                                        <% 
+                                                for(var i=0; i< ouvrier.piecesJointes.length; i++) {
+                                                    let piece = ouvrier.piecesJointes[i];
+                                                %>
+                                            <div id="file<%=piece.id%>">
+
+                                                <a href="/fileStorage/ouvrier/identity/<%= piece.filename %>" target="_blank" style="color:black; text-decoration:underline;">
+                                                 Fichier N° <%= i+1 %>
+                                            </a>
+                                                <a href="#" style="color:red; text-decoration:underline;" onclick="deleteFile(<%= piece.id %>); return false;">
+                                               Supprimer
+                                           </a>
+                                            </div>
+
+                                            <% 
+                                                }
+                                                %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3 mb-3">
+                            <button type="submit" class="btn app-btn-primary">Enregistrer l'ouvrier</button>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <%- partial('../../includes/footer') %>
+        <script type="text/javascript">
+            function deleteFile(id) {
+                let element = document.getElementById("file" + id);
+                swal({
+                        title: "Voulez vous supprimer cette pièce jointe ?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            element.setAttribute("style", "display:none");
+                            alert("API - DELETE " + id)
+                        }
+                    });
+            }
+        </script>
