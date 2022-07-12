@@ -40,15 +40,21 @@ module.exports.bootstrap = async function() {
             prenom = tabnom[i].trim() + " ";
         }
         let idcat = { id: 0 };
-        let cat = await Categorie.find({ intitule: imp.categorie + " - " + imp.montantHorraire.toUpperCase() });
+        let cat = await Categorie.find({ intitule: imp.categorie.trim() + " - " + imp.montantHorraire.trim().toUpperCase() });
         if (cat.length == 1) {
             idcat = cat[0];
         } else {
-            if (imp.montantHorraire.toUpperCase() == "") {
-                idcat = await Categorie.create({ intitule: imp.categorie, montantHorraire: imp.niveau }).fetch()
-            } else {
-                idcat = await Categorie.create({ intitule: imp.categorie + " - " + imp.montantHorraire.toUpperCase(), montantHorraire: imp.niveau }).fetch()
+            ccou = 375;
+            if (imp.montantHorraire.trim() == "A") {
+                ccou = 687.5;
             }
+            if (imp.montantHorraire.trim() == "B") {
+                ccou = 625;
+            }
+            if (imp.montantHorraire.trim() == "C") {
+                ccou = 562.5;
+            }
+            idcat = await Categorie.create({ intitule: imp.categorie.trim() + " - " + imp.montantHorraire.trim().toUpperCase(), montantHorraire: ccou }).fetch()
         }
         let ouv = await Ouvrier.create({
             nom: nom,
@@ -64,7 +70,6 @@ module.exports.bootstrap = async function() {
             badge: imp.badge,
             chantier: imp.chantier,
         })
-
     }
     */
 

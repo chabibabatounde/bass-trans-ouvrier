@@ -16,7 +16,7 @@
                                 <%= post.dateFin%>
                         </h4>
                         <div class="stats-figure">
-                            <%= montantTotal %> F cfa
+                            <%= montantTotal.toFixed(2) %> F cfa
                         </div>
                         <div class="stats-meta text-success">
                             Télécharger la fiche groupée
@@ -209,7 +209,7 @@
                     doc.text(210, startY + 1, element.cnss.toString() + " F");
                     doc.rect(209, startY - 5, 20, ecart);
 
-                    doc.text(230, startY + 1, element.salaireNet.toString());
+                    doc.text(230, startY + 1, element.salaireNet.toString() + " F");
                     doc.rect(229, startY - 5, 32, ecart);
 
                     doc.rect(261, startY - 5, 25, ecart);

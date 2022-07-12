@@ -20,6 +20,8 @@ module.exports.routes = {
      ***************************************************************************/
 
     '/login': { action: 'login' },
+    '/logout': { action: 'logout' },
+
     'GET /': { action: 'accueil' },
     '/ouvrier': { action: 'ouvrier/main' },
     '/ouvrier/details/:idouvrier': { action: 'ouvrier/details' },
@@ -47,6 +49,8 @@ module.exports.routes = {
 
     'GET /etats': { action: 'etats/main' },
     'POST /etats/bilan': { action: 'etats/bilan' },
+
+
 
 
 
