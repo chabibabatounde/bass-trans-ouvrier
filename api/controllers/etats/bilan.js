@@ -74,7 +74,8 @@ module.exports = async function bilan(req, res) {
         }
         if (ligne.montantTotal > 0) {
             ligne.cnss += ligne.montantTotal / 100 * 23;
-            ligne.salaireNet = ligne.cnss + ligne.montantTotal;
+            ligne.salaireNet = ligne.montantTotal;
+            //ligne.salaireNet = ligne.cnss + ligne.montantTotal;
             montantTotal += ligne.salaireNet;
             ligne.cnss = ligne.cnss.toFixed(2);
             ligne.salaireNet = ligne.salaireNet.toFixed(2);

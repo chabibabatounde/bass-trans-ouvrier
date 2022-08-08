@@ -15,6 +15,8 @@
                         <h4 class="stats-type mb-1">Période du
                             <%= post.dateDebut %> au
                                 <%= post.dateFin%>
+                                    <br>
+                                    <br> (Salaire net sans la CNSS)
                         </h4>
                         <div class="stats-figure">
                             <%= montantTotal.toFixed(2) %> F cfa
@@ -41,9 +43,9 @@
                                         <th class="h-cell">H. Sup</th>
                                         <th class="h-cell">H. Nuit</th>
                                         <th class="h-cell">H. Sup. Nuit</th>
-                                        <th class="h-cell">Montant Total</th>
+                                        <th class="h-cell">Salaire Brut</th>
                                         <th class="h-cell">CNSS</th>
-                                        <th class="h-cell">Salaire Net</th>
+                                        <th class="h-cell">Net à Payer</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listTbody">
@@ -71,7 +73,7 @@
                                                 <%= ligne.heuresNuitSup %>
                                             </td>
                                             <td class="cell">
-                                                <%= ligne.montantTotal %>
+                                                <%= parseFloat(ligne.montantTotal) + parseFloat(ligne.cnss)  %>
                                             </td>
                                             <td class="cell">
                                                 <%= ligne.cnss %>

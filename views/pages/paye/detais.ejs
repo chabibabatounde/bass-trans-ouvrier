@@ -104,7 +104,7 @@
                                                 <td class="cell">
                                                 </td>
                                                 <td class="h-cell" style="font-weight:bold">
-                                                    <%= nbH %>
+                                                    <%= (nbH + (nbH/100*23)).toFixed(2) %>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -129,7 +129,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="h-cell" style="font-weight:bold">
-                                                    Salaire Net
+                                                    Net à payer
                                                 </td>
                                                 <td class="cell">
                                                 </td>
@@ -144,7 +144,7 @@
                                                 <td class="cell">
                                                 </td>
                                                 <td class="h-cell" style="font-weight:bold">
-                                                    <%= (nbH + (nbH/100*23)).toFixed(2) %>
+                                                    <%= nbH %>
                                                 </td>
                                             </tr>
                                 </tbody>
@@ -294,13 +294,17 @@
             startY += (ecart * (i + 1)) + 8
             doc.setFontSize(12).setFont(undefined, 'bold');
             doc.text(117, startY, "Salaire Brut : ");
-            doc.text(162, startY, salaireBrut.toString());
+            doc.text(145, startY, (salaireBrut + (salaireBrut / 100 * 23)).toString());
+
+            //doc.text(162, startY, salaireBrut.toString());
             doc.rect(113, startY - 5, 87, 8);
+
             startY += 10
             doc.setFontSize(12).setFont(undefined, 'normal');
             doc.text(117, startY, "Cotisation CNSS : ");
             doc.text(162, startY, (salaireBrut / 100 * 23).toString());
             doc.rect(113, startY - 5, 87, 8);
+
 
             startY += 10
             doc.setFontSize(12).setFont(undefined, 'normal');
@@ -308,6 +312,7 @@
             doc.setFontSize(8).setFont(undefined, 'normal');
             doc.text(162, startY, " A la charge de l'employeur");
             doc.rect(113, startY - 5, 87, 8);
+
 
             startY += 10
             doc.setFontSize(12).setFont(undefined, 'normal');
@@ -318,8 +323,8 @@
 
             startY += 15
             doc.setFontSize(12).setFont(undefined, 'bold');
-            doc.text(11, startY, "Salaire Net imposable : ");
-            doc.text(145, startY, (salaireBrut + (salaireBrut / 100 * 23)).toString());
+            doc.text(11, startY, "Salaire net à payer : ");
+            doc.text(145, startY, (salaireBrut).toString());
             doc.rect(10, startY - 5, 190, 8);
 
             startY += 15
